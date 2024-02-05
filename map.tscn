@@ -1,0 +1,46 @@
+[gd_scene load_steps=10 format=3 uid="uid://bks38k8tmvl8t"]
+
+[ext_resource type="PackedScene" uid="uid://d2tnq6jb7wstk" path="res://Player.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://bww0r83wcyabu" path="res://Vector/texture_01.svg" id="1_sllts"]
+[ext_resource type="Script" path="res://smoother.gd" id="3_vnw51"]
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mopo1"]
+albedo_texture = ExtResource("1_sllts")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="2"]
+material = SubResource("StandardMaterial3D_mopo1")
+size = Vector3(100, 1, 100)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_luohw"]
+
+[sub_resource type="Sky" id="Sky_f8vxn"]
+sky_material = SubResource("ProceduralSkyMaterial_luohw")
+
+[sub_resource type="Environment" id="Environment_6bhvy"]
+background_mode = 2
+background_energy_multiplier = 2.0
+sky = SubResource("Sky_f8vxn")
+
+[node name="map" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("2")
+
+[node name="Player" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6bhvy")
+
+[node name="Smoother" type="Node" parent="."]
+script = ExtResource("3_vnw51")
